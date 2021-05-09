@@ -23,14 +23,9 @@ namespace Mass_Roller_CMNDLN
                     Attack attack = new();
                     attack.Initialise();
                     if (attack.Confirm())
-                    
-                    {
-                        attack.Result();                        
-                    }
+                        attack.Result();
                     else
-                    {
-                        Menu();
-                    }
+                        Menu();                 
 
 
                 }
