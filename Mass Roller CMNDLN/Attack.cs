@@ -50,29 +50,20 @@ namespace Mass_Roller_CMNDLN
             //Initialize variables
             int Hits = 0;
             int Crits = 0;
-            int Numofdice = (NumberOfAttackers * AttacksPerEntity) + 1;
-
-            Span<int> rolls = stackalloc int[Numofdice];
+            int Numofdice = NumberOfAttackers * AttacksPerEntity;            
             Random dice = new();
 
-            //For loop in range of number of attack dice. Each return a random int between 1-20.
-            foreach (ref int roll in rolls)
+            //For loop in range of number of attack dice. 20 is a crit, >= AC is a hit.
+            for(int i = 0; i <= Numofdice; i++)
             {
                 int result = dice.Next(21);
-                //If the int is a 20, increment Crits by 1.
                 if (result == 20)
-                {
                     Crits++;
-                }
-                //Else if the int + modifier is greater or equal to AC, increment Hits by 1
                 else if ((result + Modifier) >= AC)
-                {
-                    Hits++;
-                }
+                    Hits++;                
             }
 
             //Return Hits and Crits as an Int Array
-
             int[] HitsandCrits = new int[] { Hits, Crits };
             return HitsandCrits;
 

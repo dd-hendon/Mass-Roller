@@ -1,4 +1,5 @@
 ﻿using System;
+using MassRollLibrary;
 
 namespace Mass_Roller_CMNDLN
 {
@@ -31,7 +32,21 @@ namespace Mass_Roller_CMNDLN
                 }
                 else if (input == "s")
                 {
-                    //savingthrow();
+                    SavingThrow savingThrow = new();
+                    InitialiseSave.Initialise(savingThrow);
+                    var result = savingThrow.Damage(savingThrow.Roll());
+                    var saved = result[0];
+                    var failed = result[1];
+                    Console.WriteLine("Those that saved recieved:");
+                    foreach (var damage in saved)
+                    {
+                        Console.WriteLine(damage);
+                    }
+                    Console.WriteLine("Those that failed recieved:");
+                    foreach (var damage in failed)
+                    {
+                        Console.WriteLine(damage);
+                    }
                 }
                 else if (input == "d")
                 {

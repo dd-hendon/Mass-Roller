@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mass_Roller_CMNDLN
+namespace MassRollLibrary
 {
-    class Class1
+    class AttackRoll
     {
     }
 }

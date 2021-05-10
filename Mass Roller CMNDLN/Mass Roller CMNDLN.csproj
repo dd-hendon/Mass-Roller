@@ -6,4 +6,8 @@
     <RootNamespace>Mass_Roller_CMNDLN</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Mass Rolls\MassRollLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
