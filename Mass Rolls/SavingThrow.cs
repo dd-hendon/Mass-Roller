@@ -5,6 +5,8 @@ namespace MassRollLibrary
 {
     public class SavingThrow
     {
+        public string Source { get; set; }
+        public string Target { get; set; }
         private int _dc;
         public int DC
         {
@@ -37,14 +39,18 @@ namespace MassRollLibrary
                     _numOfSaves = value;
                 }
             }
-        } 
+        }
+        public int SaveModifier { get; set; }
         public bool Advantage { get; set; }
         public bool Disadvantage { get; set; }
+        public bool IsCondition { get; set; }
+        public string Condition { get; set; }
+        public bool IsDamage { get; set; }        
         public bool Resistance { get; set; }
         public bool Weakness  { get; set; }
         public int DamageDiceType { get; set; }
         public int DamageDiceAmount { get; set; }
-        public int Modifier { get; set; }
+        public int DamageModifier { get; set; }
 
 
         public int[] Roll()
@@ -57,7 +63,7 @@ namespace MassRollLibrary
             {
                 for (int i = 0; i < NumOfSaves; i++)
                 {
-                    bool saved = (Math.Max(d20.Next(21), d20.Next(21)) >= DC) ? true : false;
+                    bool saved = (Math.Max(d20.Next(21), d20.Next(21)) + SaveModifier >= DC) ? true : false;
                     if (saved) { totalSaved++; }
                     else { totalFailed++; }
                 }
@@ -68,7 +74,7 @@ namespace MassRollLibrary
             {
                 for (int i = 0; i < NumOfSaves; i++)
                 {
-                    bool saved = (Math.Min(d20.Next(21), d20.Next(21)) >= DC) ? true : false;
+                    bool saved = (Math.Min(d20.Next(21), d20.Next(21)) + SaveModifier >= DC) ? true : false;
                     if (saved) { totalSaved++; }
                     else { totalFailed++; }
                 }
@@ -79,7 +85,7 @@ namespace MassRollLibrary
             {
                 for (int i = 0; i < NumOfSaves; i++)
                 {
-                    bool saved = (d20.Next(21) >= DC) ? true : false;
+                    bool saved = (d20.Next(21) + SaveModifier >= DC) ? true : false;
                     if (saved) { totalSaved++; }
                     else { totalFailed++; }                        
                 }
@@ -98,7 +104,7 @@ namespace MassRollLibrary
 
             for (int i = 0; i < saved; i++)
             {
-                int damage = Modifier;
+                int damage = DamageModifier;
                 for (int j = 0; j < DamageDiceAmount; j++)
                 {
                     damage += (dice.Next(DamageDiceType + 1)) / 2;
@@ -107,7 +113,7 @@ namespace MassRollLibrary
             }
             for (int i = 0; i < failed; i++)
             {
-                int damage = Modifier;
+                int damage = DamageModifier;
                 for (int j = 0; j < DamageDiceAmount; j++)
                 {
                     damage += dice.Next(DamageDiceType + 1);

@@ -10,10 +10,16 @@ namespace Mass_Roller_CMNDLN
             Menu();
             static void Menu()
             {
-                Console.WriteLine("Welcome to Mass Roller!\n");
-                Console.WriteLine("Press A for attack\n" +
-                    "Press S for saving throw\n" +
-                    "Press D for damage\n" +
+                Console.WriteLine("______________________");
+                Console.WriteLine("Welcome to Mass Roller\n");
+                Console.WriteLine("       _____");
+                Console.WriteLine("      /     \\    ");
+                Console.WriteLine("     /       \\   ");
+                Console.WriteLine("     \\       /   ");
+                Console.WriteLine("      \\_____/    ");
+                Console.WriteLine("\nPress A for attack rolls\n" +
+                    "Press S for saving throws\n\n" +
+                    //"Press D for damage\n" +
                     "Press Q to quit\n");
                     
                 string input = Console.ReadLine().ToLower();
@@ -33,20 +39,13 @@ namespace Mass_Roller_CMNDLN
                 else if (input == "s")
                 {
                     SavingThrow savingThrow = new();
-                    InitialiseSave.Initialise(savingThrow);
-                    var result = savingThrow.Damage(savingThrow.Roll());
-                    var saved = result[0];
-                    var failed = result[1];
-                    Console.WriteLine("Those that saved recieved:");
-                    foreach (var damage in saved)
-                    {
-                        Console.WriteLine(damage);
-                    }
-                    Console.WriteLine("Those that failed recieved:");
-                    foreach (var damage in failed)
-                    {
-                        Console.WriteLine(damage);
-                    }
+                    Save.Initialise(savingThrow);
+                    if (savingThrow.IsDamage)
+                        Save.SaveAndDamage(savingThrow);
+                    else
+                        Save.SaveOnly(savingThrow);
+                    Console.ReadLine();
+                    Menu();
                 }
                 else if (input == "d")
                 {
@@ -63,5 +62,7 @@ namespace Mass_Roller_CMNDLN
                 }
             } 
         }
+
+        
     }
 }
