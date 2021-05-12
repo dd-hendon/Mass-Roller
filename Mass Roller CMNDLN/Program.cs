@@ -27,8 +27,8 @@ namespace Mass_Roller_CMNDLN
 
                 if (input == "a")
                 {
-                    Attack attack = new();
-                    attack.Initialise();
+                    AttackRoll attack = new();
+                    Attack.Initialise(attack);
                     if (attack.Confirm())
                         attack.Result();
                     else

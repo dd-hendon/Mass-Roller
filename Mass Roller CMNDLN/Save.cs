@@ -24,9 +24,14 @@ namespace Mass_Roller_CMNDLN
 
             Console.WriteLine("\nEnter the effect source");
             savingThrow.Source = Console.ReadLine();
-            
-            Console.WriteLine("\nEnter the saving throw DC");
-            savingThrow.DC = Int32.Parse(Console.ReadLine());
+                        
+            bool saveDCIsInt = false;
+            while (saveDCIsInt == false)
+            {
+                Console.WriteLine("\nEnter the saving throw DC");
+                saveDCIsInt = int.TryParse(Console.ReadLine(), out int DC);
+                savingThrow.DC = DC;
+            }            
 
             Console.WriteLine("\nEnter the name of the targets");
             savingThrow.Target = Console.ReadLine();
@@ -35,7 +40,12 @@ namespace Mass_Roller_CMNDLN
             savingThrow.NumOfSaves = Int32.Parse(Console.ReadLine());
 
             Console.WriteLine("\nEnter saving throw modifier");
-            savingThrow.SaveModifier = Int32.Parse(Console.ReadLine());
+            var modifier = (Console.ReadLine());
+            bool parsed = int.TryParse(modifier, out int intmod);
+            if (parsed)
+            {
+                savingThrow.SaveModifier = intmod;
+            }
 
             Console.WriteLine("\nAdvantage (a), disadvantage (d) or neither (any)");
             var choice = Console.ReadLine().ToLower();
@@ -58,8 +68,13 @@ namespace Mass_Roller_CMNDLN
             Console.WriteLine("\nEnter amount of damage dice");
             savingThrow.DamageDiceAmount = Int32.Parse(Console.ReadLine());
 
-            Console.WriteLine("\nEnter any modifier");
-            savingThrow.DamageModifier = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("\nEnter any damage modifier");
+            var dmgModifier = (Console.ReadLine());
+            bool dmgModparsed = int.TryParse(dmgModifier, out int dmgmod);
+            if (parsed)
+            {
+                savingThrow.DamageModifier = dmgmod;
+            }
 
             Console.WriteLine("\nAre the creatures resistant or weak" +
                 " to the damage? Press R, W, or any other key.");
