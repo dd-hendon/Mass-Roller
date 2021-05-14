@@ -27,11 +27,11 @@ namespace Mass_Roller_CMNDLN
 
                 if (input == "a")
                 {
-                    AttackRoll attack = new();
-                    Attack.Initialise(attack);
-                    if (attack.Confirm())
-                        attack.Result();
-                    else
+                    //AttackRoll attack = new();
+                    //Attack.Initialise(attack);
+                    //if (attack.Confirm())
+                    //    attack.Result();
+                    //else
                         Menu();                 
 
 
@@ -41,7 +41,7 @@ namespace Mass_Roller_CMNDLN
                     SavingThrow savingThrow = new();
                     Save.Initialise(savingThrow);
                     if (savingThrow.IsDamage)
-                        Save.SaveAndDamage(savingThrow);
+                        Save.SaveWithDamage(savingThrow);
                     else
                         Save.SaveOnly(savingThrow);
                     Console.ReadLine();

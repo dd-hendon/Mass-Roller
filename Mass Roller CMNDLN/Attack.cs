@@ -46,17 +46,17 @@ namespace Mass_Roller_CMNDLN
         }
         
         }
-        public static void Result()
-        {
-            int[] result = Roll();
-            Console.WriteLine($"\nThe {Name} " +
-                            $"have struck {result[0]} hits " +
-                            $"and {result[1]} critical hits!\n");
-        }
-        
-        
-            
-        
-    }
+    //public static void Result()
+    //{
+    //    int[] result = Roll();
+    //    Console.WriteLine($"\nThe {Name} " +
+    //                    $"have struck {result[0]} hits " +
+    //                    $"and {result[1]} critical hits!\n");
+    //}
+
+
+
+
 }
+
 

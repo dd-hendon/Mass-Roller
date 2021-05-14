@@ -30,16 +30,22 @@ namespace MassRollLibrary
             }
             set
             {
-                if (value < 1)
+                if (value == 0)
                 {
-                    throw new ArgumentException("Must be one or greater");
-                }                    
+                    value = 1;
+                }
+                else if (value < 0)
+                {
+                    throw new ArgumentException("Must be one or greater"); 
+                }
+
                 else
                 {
                     _numOfSaves = value;
                 }
             }
         }
+        //public int  NumOfSaves { get; set; }
         public int SaveModifier { get; set; }
         public bool Advantage { get; set; }
         public bool Disadvantage { get; set; }
@@ -94,84 +100,100 @@ namespace MassRollLibrary
             }
         }
 
-        public List<int[]> Damage(int[] savedAndFailed)
-        {
-            int saved = savedAndFailed[0];
-            int failed = savedAndFailed[1];
+        public int Damage()
+        {            
             Random dice = new();
-            int[] savedDamage = new int[saved];
-            int[] failedDamage = new int[failed];
-
-            if (Weakness)
-            {
-                for (int i = 0; i < saved; i++)
-                {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount; j++)
-                    {
-                        damage += (dice.Next(DamageDiceType + 1));
-                    }
-                    savedDamage[i] = damage;
-                }
-                for (int i = 0; i < failed; i++)
-                {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount; j++)
-                    {
-                        damage += dice.Next(DamageDiceType + 1) * 2;
-                    }
-                    failedDamage[i] = damage;
-                }
-            }
-            else if (Resistance)
-            {
-                for (int i = 0; i < saved; i++)
-                {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount; j++)
-                    {
-                        damage += (dice.Next(DamageDiceType + 1)) / 4;
-                    }
-                    savedDamage[i] = damage;
-                }
-                for (int i = 0; i < failed; i++)
-                {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount; j++)
-                    {
-                        damage += dice.Next(DamageDiceType + 1) /2;
-                    }
-                    failedDamage[i] = damage;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < saved; i++)
-                {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount; j++)
-                    {
-                        damage += (dice.Next(DamageDiceType + 1)) / 2;
-                    }
-                    savedDamage[i] = damage;
-                }
-                for (int i = 0; i < failed; i++)
-                {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount; j++)
-                    {
-                        damage += dice.Next(DamageDiceType + 1);
-                    }
-                    failedDamage[i] = damage;
-                }
-            }            
+            int totalDamage = DamageModifier;
             
-            List<int[]> savedAndFailedDamage = new();
-            savedAndFailedDamage.Add(savedDamage);
-            savedAndFailedDamage.Add(failedDamage);
-            return savedAndFailedDamage;
+            for (int i = 0; i < DamageDiceAmount; i++)
+            {
+                totalDamage += dice.Next(DamageDiceType + 1);
+            }
+            
+            if (Weakness)
+                totalDamage = totalDamage * 2;
+            else if (Resistance)
+                totalDamage = totalDamage / 2;
+            
+            return totalDamage;
 
-        }   
+
+            //int saved = savedAndFailed[0];
+            //int failed = savedAndFailed[1];
+            //
+            //int[] savedDamage = new int[saved];
+            //int[] failedDamage = new int[failed];
+
+            //if (Weakness)
+            //{
+            //    for (int i = 0; i < saved; i++)
+            //    {
+            //        int damage = DamageModifier;
+            //        for (int j = 0; j < DamageDiceAmount; j++)
+            //        {
+            //            damage += (dice.Next(DamageDiceType + 1));
+            //        }
+            //        savedDamage[i] = damage;
+            //    }
+            //    for (int i = 0; i < failed; i++)
+            //    {
+            //        int damage = DamageModifier;
+            //        for (int j = 0; j < DamageDiceAmount; j++)
+            //        {
+            //            damage += dice.Next(DamageDiceType + 1) * 2;
+            //        }
+            //        failedDamage[i] = damage;
+            //    }
+            //}
+            //else if (Resistance)
+            //{
+            //    for (int i = 0; i < saved; i++)
+            //    {
+            //        int damage = DamageModifier;
+            //        for (int j = 0; j < DamageDiceAmount; j++)
+            //        {
+            //            damage += (dice.Next(DamageDiceType + 1)) / 4;
+            //        }
+            //        savedDamage[i] = damage;
+            //    }
+            //    for (int i = 0; i < failed; i++)
+            //    {
+            //        int damage = DamageModifier;
+            //        for (int j = 0; j < DamageDiceAmount; j++)
+            //        {
+            //            damage += dice.Next(DamageDiceType + 1) /2;
+            //        }
+            //        failedDamage[i] = damage;
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < saved; i++)
+            //    {
+            //        int damage = DamageModifier;
+            //        for (int j = 0; j < DamageDiceAmount; j++)
+            //        {
+            //            damage += (dice.Next(DamageDiceType + 1)) / 2;
+            //        }
+            //        savedDamage[i] = damage;
+            //    }
+            //    for (int i = 0; i < failed; i++)
+            //    {
+            //        int damage = DamageModifier;
+            //        for (int j = 0; j < DamageDiceAmount; j++)
+            //        {
+            //            damage += dice.Next(DamageDiceType + 1);
+            //        }
+            //        failedDamage[i] = damage;
+            //    }
+            //}            
+
+            //List<int[]> savedAndFailedDamage = new();
+            //savedAndFailedDamage.Add(savedDamage);
+            //savedAndFailedDamage.Add(failedDamage);
+            //return savedAndFailedDamage;
+
+        }
 
 
 
