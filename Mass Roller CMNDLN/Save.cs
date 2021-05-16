@@ -28,9 +28,10 @@ namespace Mass_Roller_CMNDLN
             bool saveDCIsInt = false;
             while (saveDCIsInt == false)
             {
-                Console.WriteLine("\nEnter the saving throw DC");
+                Console.WriteLine("\nEnter the saving throw DC");                
                 saveDCIsInt = int.TryParse(Console.ReadLine(), out int DC);
                 savingThrow.DC = DC;
+                
             }            
 
             Console.WriteLine("\nEnter the name of the targets");
@@ -45,13 +46,13 @@ namespace Mass_Roller_CMNDLN
             }
 
 
-            bool parsed = false;
-            while (parsed == false)
+            bool saveModIsInt = false;
+            while (saveModIsInt == false)
             {
                 Console.WriteLine("\nEnter saving throw modifier");
                 var modifier = (Console.ReadLine());
-                parsed = int.TryParse(modifier, out int intmod);
-                if (parsed)
+                saveModIsInt = int.TryParse(modifier, out int intmod);
+                if (saveModIsInt)
                 {
                     savingThrow.SaveModifier = intmod;
                 }
@@ -95,7 +96,12 @@ namespace Mass_Roller_CMNDLN
             while (ModifierIsInt == false)
             {
                 Console.WriteLine("\nEnter any damage modifier");
-                ModifierIsInt = int.TryParse(Console.ReadLine(), out int DmgMod);
+                var dmgModInput = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(dmgModInput))
+                {
+                    break;
+                }
+                ModifierIsInt = int.TryParse(dmgModInput, out int DmgMod);
                 savingThrow.DamageModifier = DmgMod;
             }
 
@@ -144,10 +150,17 @@ namespace Mass_Roller_CMNDLN
             var result = savingThrow.Roll();
             var damage = savingThrow.Damage();
 
-            Console.WriteLine($"{result[0]} {savingThrow.Target}" +
-                $" made their saves, taking {damage / 2} damage");
-            Console.WriteLine($"{result[1]} {savingThrow.Target}" +
-                $" failed their saves taking {damage} damage");
+            Console.Write($"{result[0]} {savingThrow.Target}" +
+                $" made their saves");
+            if (result[0] != 0)
+                Console.WriteLine($" taking {damage / 2} damage");
+                
+            Console.Write($"{result[1]} {savingThrow.Target}" +
+                $" failed their saves");
+            if (result[1] != 0)
+                Console.WriteLine($"taking {damage} damage"); 
+
+
         }
     }
 }

@@ -3,9 +3,9 @@ using MassRollLibrary;
 
 namespace Mass_Roller_CMNDLN
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Menu();
             static void Menu()
@@ -27,12 +27,13 @@ namespace Mass_Roller_CMNDLN
 
                 if (input == "a")
                 {
-                    //AttackRoll attack = new();
-                    //Attack.Initialise(attack);
-                    //if (attack.Confirm())
-                    //    attack.Result();
-                    //else
-                        Menu();                 
+                    AttackRoll attackRoll = new();
+                    Attack.Initialise(attackRoll);
+                    if (Attack.Confirm(attackRoll))
+                        Attack.Result(attackRoll);
+                    else
+                        Menu();
+                    Menu();
 
 
                 }
