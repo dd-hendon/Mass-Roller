@@ -29,7 +29,7 @@ namespace MassRollLibrary
             int Crits = 0;
             int Numofdice = NumberOfAttackers * AttacksPerEntity;
             Random dice = new();
-
+            
             if (Advantage)
             {
                 for (int i = 0; i <= Numofdice; i++)

@@ -9,13 +9,13 @@ namespace Mass_Roller_CMNDLN
 
         public static void Initialise(AttackRoll attackRoll)
         {
-            Console.WriteLine("\nEnter attacking group name:");
+            Console.Write("Attacking group name: ");
             attackRoll.Name = Console.ReadLine();
 
             bool numOfAttackersIsInt = false;
             while (numOfAttackersIsInt == false)
             {
-                Console.WriteLine("\nEnter number of attackers:");
+                Console.Write("Number of attackers: ");
                 numOfAttackersIsInt = int.TryParse(Console.ReadLine(), out int numOfAttackers);
                 attackRoll.NumberOfAttackers = numOfAttackers;
             }
@@ -23,7 +23,7 @@ namespace Mass_Roller_CMNDLN
             bool attacksPerEntityIsInt = false;
             while (attacksPerEntityIsInt == false)
             {
-                Console.WriteLine("\nEnter attack rolls per attacker:");
+                Console.Write("Attack rolls per attacker: ");
                 var attacksPerEntityInput = Console.ReadLine();
                 if (String.IsNullOrWhiteSpace(attacksPerEntityInput))
                 {
@@ -37,7 +37,7 @@ namespace Mass_Roller_CMNDLN
             bool toHitModIsInt = false;
             while (toHitModIsInt == false)
             {
-                Console.WriteLine("\nEnter modifier to hit:");
+                Console.Write("Modifier to hit: ");
                 toHitModIsInt = int.TryParse(Console.ReadLine(), out int toHitMod);
                 attackRoll.ToHitModifier = toHitMod;
             }
@@ -45,12 +45,12 @@ namespace Mass_Roller_CMNDLN
             bool acIsInt = false;
             while (acIsInt == false)
             {
-                Console.WriteLine("\nEnter AC to beat:");
+                Console.Write("AC to beat: ");
                 acIsInt = int.TryParse(Console.ReadLine(), out int AC);
                 attackRoll.AC = AC;
             }
 
-            Console.WriteLine("\nAdvantage (a), disadvantage (d) or neither (any)");
+            Console.Write("Advantage (A), Disadvantage (D) or neither (Enter): ");
             var choice = Console.ReadLine().ToLower();
             if (choice == "a")
             {
@@ -64,7 +64,7 @@ namespace Mass_Roller_CMNDLN
             bool DiceTypeIsInt = false;
             while (DiceTypeIsInt == false)
             {
-                Console.WriteLine("\nEnter damage dice type");
+                Console.Write("Damage dice type: ");
                 Console.Write("d");
                 DiceTypeIsInt = int.TryParse(Console.ReadLine(), out int DiceType);
                 attackRoll.DamageDiceType = DiceType;
@@ -73,7 +73,7 @@ namespace Mass_Roller_CMNDLN
             bool DiceAmountIsInt = false;
             while (DiceAmountIsInt == false)
             {                
-                Console.WriteLine("\nEnter amount of damage dice");
+                Console.Write("Damage dice: ");
                 var DiceAmountInput = Console.ReadLine();
                 if (String.IsNullOrEmpty(DiceAmountInput))
                 {
@@ -87,7 +87,7 @@ namespace Mass_Roller_CMNDLN
             bool ModifierIsInt = false;
             while (ModifierIsInt == false)
             {
-                Console.WriteLine("\nEnter any damage modifier");
+                Console.Write("Damage modifier: ");
                 var dmgModInput = Console.ReadLine();
                 if (String.IsNullOrWhiteSpace(dmgModInput))
                 {
@@ -97,8 +97,7 @@ namespace Mass_Roller_CMNDLN
                 attackRoll.DamageModifier = DmgMod;
             }
 
-            Console.WriteLine("\nAre the creatures resistant or weak" +
-                " to the damage? Press R, W, or any other key.");
+            Console.Write("Target Resistance (R), Weakness (W), or neither (Enter): ");
             var choice2 = Console.ReadLine().ToLower();
             if (choice2 == "r")
             {
