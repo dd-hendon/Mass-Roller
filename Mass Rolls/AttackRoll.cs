@@ -22,90 +22,117 @@ namespace MassRollLibrary
         public int DamageModifier { get; set; }
 
 
-
+        Func<Random, int> AttackRollType;
+        public int AdvantageRoll(Random dice)
+        {
+            return Math.Max(dice.Next(21), dice.Next(21));
+        }
+        public int DisadvantageRoll(Random dice)
+        {
+            return Math.Min(dice.Next(21), dice.Next(21));
+        }
+        public int StandardAttackRoll(Random dice)
+        {
+            return dice.Next(21);
+        }
+        public void SetAttackRollType()
+        {
+            if (Advantage)
+            {
+                AttackRollType = AdvantageRoll;
+            }
+            else if (Disadvantage)
+            {
+                AttackRollType = DisadvantageRoll;
+            }
+            else
+            {
+                AttackRollType = StandardAttackRoll;
+            }
+        }
+    
         public int[] Roll()
         {
             int Hits = 0;
             int Crits = 0;
             int Numofdice = NumberOfAttackers * AttacksPerEntity;
             Random dice = new();
-            
-            if (Advantage)
-            {
-                for (int i = 0; i <= Numofdice; i++)
-                {
-                    int result = Math.Max(dice.Next(21), dice.Next(21));
-                    if (result == 20)
-                        Crits++;
-                    else if ((result + ToHitModifier) >= AC)
-                        Hits++;
-                }
+            SetAttackRollType();
 
-                int[] HitsandCrits = new int[] { Hits, Crits };
-                return HitsandCrits;
+            for (int i = 0; i < Numofdice; i++)
+            {
+                int result = AttackRollType(dice);
+                if (result == 20)
+                    Crits++;
+                else if ((result + ToHitModifier) >= AC)
+                    Hits++;
             }
-            else if (Disadvantage)
-            {
-                for (int i = 0; i <= Numofdice; i++)
-                {
-                    int result = Math.Min(dice.Next(21), dice.Next(21));
-                    if (result == 20)
-                        Crits++;
-                    else if ((result + ToHitModifier) >= AC)
-                        Hits++;
-                }
+            int[] HitsandCrits = new int[] { Hits, Crits };
+            return HitsandCrits;
+        }
 
-                int[] HitsandCrits = new int[] { Hits, Crits };
-                return HitsandCrits;
+        Func<Random, int> DamageRollType;
+        public int WeaknessDamageRoll(Random dice)
+        {
+            return (dice.Next(DamageDiceType + 1) * 2);
+        }
+        public int ResistanceDamageRoll(Random dice)
+        {
+            return (dice.Next(DamageDiceType + 1) / 2 );
+        }
+        public int StandardDamageRoll(Random dice)
+        {
+            return (dice.Next(DamageDiceType + 1));
+        }
+        public void SetDamageRollType()
+        {
+            if(Resistance)
+            {
+                DamageRollType = ResistanceDamageRoll;
+            }
+            else if (Weakness)
+            {
+                DamageRollType = WeaknessDamageRoll;
             }
             else
             {
-                for (int i = 0; i <= Numofdice; i++)
-                {
-                    int result = dice.Next(21);
-                    if (result == 20)
-                        Crits++;
-                    else if ((result + ToHitModifier) >= AC)
-                        Hits++;
-                }
-                                
-                int[] HitsandCrits = new int[] { Hits, Crits };
-                return HitsandCrits;
-            }          
+                DamageRollType = StandardDamageRoll;
+            }
         }
+
 
         public int[] Damage(int[] HitsAndCrits)
         {
             int hits = HitsAndCrits[0];
             int crits = HitsAndCrits[1];
             Random dice = new();
+            SetDamageRollType();
             int[] HitsDamage = new int[hits];
             int[] CritsDamage = new int[crits];
             int[] TotalDamage = new int[hits + crits];
 
-            if (Weakness)
+            for (int i = 0; i < hits; i++)
             {
-                for (int i = 0; i < hits; i++)
+                int damage = DamageModifier;
+                for (int j = 0; j < DamageDiceAmount; j++)
                 {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount; j++)
-                    {
-                        damage += (dice.Next(DamageDiceType + 1) * 2);
-                    }
-                    HitsDamage[i] = damage;
+                    damage += DamageRollType(dice);
                 }
-                for (int i = 0; i < crits; i++)
-                {
-                    int damage = DamageModifier;
-                    for (int j = 0; j < DamageDiceAmount * 2; j++)
-                    {
-                        damage += (dice.Next(DamageDiceType + 1) * 2);
-                    }
-                    CritsDamage[i] = damage;
-                }
-                TotalDamage = CritsDamage.Concat(HitsDamage).ToArray();
-                return TotalDamage;
+                HitsDamage[i] = damage;
             }
+            for (int i = 0; i < crits; i++)
+            {
+                int damage = DamageModifier;
+                for (int j = 0; j < DamageDiceAmount * 2; j++)
+                {
+                    damage += DamageRollType(dice);
+                }
+                CritsDamage[i] = damage;
+            }
+            TotalDamage = CritsDamage.Concat(HitsDamage).ToArray();
+            return TotalDamage;
+
+            /*
             else if (Resistance)
             {
                 for (int i = 0; i < hits; i++)
@@ -152,8 +179,7 @@ namespace MassRollLibrary
                 TotalDamage = CritsDamage.Concat(HitsDamage).ToArray();
                 return TotalDamage;
             }
-
-            
+            */
         }
     }
 }
