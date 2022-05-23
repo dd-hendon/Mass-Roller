@@ -15,7 +15,7 @@ namespace Mass_Roller_CMNDLN
             InputHandling();
         }
 
-        public static void Header()
+        internal static void Header()
         {
             Console.WriteLine("______________________");
             Console.WriteLine("Welcome to Mass Roller\n");
@@ -29,7 +29,7 @@ namespace Mass_Roller_CMNDLN
                 "Press Q to quit\n");
         }
 
-        public static void InputHandling()
+        internal static void InputHandling()
         {
             string input = Console.ReadLine().ToLower();
 
@@ -40,11 +40,6 @@ namespace Mass_Roller_CMNDLN
                 if (Attack.Confirm(attackRoll))
                 {
                     Attack.Result(attackRoll);
-                }
-                else
-                {
-                    Console.Clear();
-                    Run();
                 }
                 Console.Clear();
                 Run();

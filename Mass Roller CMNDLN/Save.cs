@@ -11,16 +11,14 @@ namespace Mass_Roller_CMNDLN
     {
         public static void Initialise(SavingThrow savingThrow)
         {
-            Console.WriteLine("a\nv\ne\n");
-
             Console.WriteLine("\nCondition only? (c)");
-            var isdamage = Console.ReadLine().ToLower();
-            savingThrow.IsDamage = (isdamage == "c") ? false : true;
+            var isDamage = Console.ReadLine().ToLower();
+            savingThrow.IsDamage = (isDamage == "c") ? false : true;
 
             if (savingThrow.IsDamage)
-                Console.WriteLine("d\na\nm\na\ng\ne");
+                Console.Write("damage");
             else
-                Console.WriteLine("o\nn\nd\ni\nt\ni\no\nn");
+                Console.Write("condition");
 
             Console.WriteLine("\nEnter the effect source");
             savingThrow.Source = Console.ReadLine();
@@ -51,10 +49,10 @@ namespace Mass_Roller_CMNDLN
             {
                 Console.WriteLine("\nEnter saving throw modifier");
                 var modifier = (Console.ReadLine());
-                saveModIsInt = int.TryParse(modifier, out int intmod);
+                saveModIsInt = int.TryParse(modifier, out int saveModifier);
                 if (saveModIsInt)
                 {
-                    savingThrow.SaveModifier = intmod;
+                    savingThrow.SaveModifier = saveModifier;
                 }
             }
             
@@ -117,26 +115,6 @@ namespace Mass_Roller_CMNDLN
                 savingThrow.Weakness = true;
             }
         }
-
-        //public static void SaveAndDamage(SavingThrow savingThrow)
-        //{
-        //    var result = savingThrow.Damage(savingThrow.Roll());
-        //    var saved = result[0];
-        //    var failed = result[1];            
-
-        //    Console.WriteLine("\n\nThose that saved recieved:");
-        //    foreach (var damage in saved)
-        //    {
-        //        Console.Write(damage + ", ");
-        //    }
-        //    Console.WriteLine();
-        //    Console.WriteLine("\nThose that failed recieved:");
-        //    foreach (var damage in failed)
-        //    {
-        //        Console.Write(damage + ", ");
-        //    }
-        //    Console.WriteLine();
-        //}
 
         public static void SaveOnly(SavingThrow savingThrow)
         {

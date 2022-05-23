@@ -61,49 +61,49 @@ namespace Mass_Roller_CMNDLN
                 attackRoll.Disadvantage = true;
             }
 
-            bool DiceTypeIsInt = false;
-            while (DiceTypeIsInt == false)
+            bool diceTypeIsInt = false;
+            while (diceTypeIsInt == false)
             {
                 Console.Write("Damage dice type: ");
                 Console.Write("d");
-                DiceTypeIsInt = int.TryParse(Console.ReadLine(), out int DiceType);
-                attackRoll.DamageDiceType = DiceType;
+                diceTypeIsInt = int.TryParse(Console.ReadLine(), out int diceType);
+                attackRoll.DamageDiceType = diceType;
             }
 
-            bool DiceAmountIsInt = false;
-            while (DiceAmountIsInt == false)
+            bool diceAmountIsInt = false;
+            while (diceAmountIsInt == false)
             {                
-                Console.Write("Damage dice: ");
-                var DiceAmountInput = Console.ReadLine();
-                if (String.IsNullOrEmpty(DiceAmountInput))
+                Console.Write("Damage dice amount: ");
+                var diceAmountInput = Console.ReadLine();
+                if (String.IsNullOrEmpty(diceAmountInput))
                 {
                     attackRoll.DamageDiceAmount = 1;
                     break;
                 }
-                DiceAmountIsInt = int.TryParse(DiceAmountInput, out int DiceAmount);
-                attackRoll.DamageDiceAmount = DiceAmount;
+                diceAmountIsInt = int.TryParse(diceAmountInput, out int diceAmount);
+                attackRoll.DamageDiceAmount = diceAmount;
             }
 
-            bool ModifierIsInt = false;
-            while (ModifierIsInt == false)
+            bool modifierIsInt = false;
+            while (modifierIsInt == false)
             {
                 Console.Write("Damage modifier: ");
-                var dmgModInput = Console.ReadLine();
-                if (String.IsNullOrWhiteSpace(dmgModInput))
+                var damageModifierInput = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(damageModifierInput))
                 {
                     break;
                 }
-                ModifierIsInt = int.TryParse(dmgModInput, out int DmgMod);
-                attackRoll.DamageModifier = DmgMod;
+                modifierIsInt = int.TryParse(damageModifierInput, out int damageModifier);
+                attackRoll.DamageModifier = damageModifier;
             }
 
             Console.Write("Target Resistance (R), Weakness (W), or neither (Enter): ");
-            var choice2 = Console.ReadLine().ToLower();
-            if (choice2 == "r")
+            var damageRollTypeChoice = Console.ReadLine().ToLower();
+            if (damageRollTypeChoice == "r")
             {
                 attackRoll.Resistance = true;
             }
-            else if (choice2 == "w")
+            else if (damageRollTypeChoice == "w")
             {
                 attackRoll.Weakness = true;
             }
@@ -112,25 +112,20 @@ namespace Mass_Roller_CMNDLN
         public static bool Confirm(AttackRoll attackRoll)
         {
             Console.WriteLine($"\n{attackRoll.NumberOfAttackers} {attackRoll.Name} " +
-                $"are attacking {attackRoll.AttacksPerEntity}" +
-                $" times each, with a plus {attackRoll.ToHitModifier} to hit, against an AC of {attackRoll.AC}.");
+                $"are attacking {attackRoll.AttacksPerEntity} " +
+                $"times each, with a plus {attackRoll.ToHitModifier} to hit, " +
+                $"against an AC of {attackRoll.AC}.");
+
             Console.WriteLine("Press Y to proceed");
-            string choice = Console.ReadLine().ToLower();
-            if (choice == "y")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            string confirmChoice = Console.ReadLine().ToLower();
+            return confirmChoice == "y";
         }
         public static void Result(AttackRoll attackRoll)
         {
-            var roll = attackRoll.Roll();
+            var roll = attackRoll.ToHitRoll();
             Console.WriteLine($"\n{roll[0]} hits and {roll[1]} crits");
             
-            var damageResult = attackRoll.Damage(roll);
+            var damageResult = attackRoll.DamageRoll(roll);
             var totalDamage = damageResult.Sum();
 
             Console.WriteLine($"\nFor a total of {totalDamage} damage");
